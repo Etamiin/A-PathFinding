@@ -14,18 +14,15 @@ namespace Inertia.PathFinding
             _grid = grid;
         }
 
-        public void ThreadFind(Cell startCell, Cell endCell, Action<Cell[]> onPath)
+        public void ThreadFind(Cell startCell, Cell endCell, Action<PathFinderResult> onResult)
         {
-            new Thread(() => onPath(Find(startCell, endCell))).Start();
+            new Thread(() => onResult(Find(startCell, endCell))).Start();
         }
-        public async Task<Cell[]> TaskFind(Cell startCell, Cell endCell)
-        {
-            return await Task.Factory.StartNew(() => Find(startCell, endCell));
-        }
-        public Cell[] Find(Cell startCell, Cell endCell)
+
+        public PathFinderResult Find(Cell startCell, Cell endCell)
         {
             if (!startCell.Walkable || !endCell.Walkable)
-                return new Cell[0];
+                return null;
 
             var openSet = new HeapCollection<CellMeta>(_grid.MaxSize);
             var closedSet = new List<CellMeta>();
@@ -53,7 +50,7 @@ namespace Inertia.PathFinding
 
                     var newCost = node.Gcost + GetDistanceCost(node, nMeta);
                     var dontContains = !openSet.Contains(nMeta);
-                    if (newCost <= nMeta.Gcost || dontContains)
+                    if (newCost < nMeta.Gcost || dontContains)
                     {
                         nMeta.Gcost = newCost;
                         nMeta.Hcost = GetDistanceCost(nMeta, endMeta);
@@ -67,7 +64,7 @@ namespace Inertia.PathFinding
 
             var currentMeta = endMeta;
             if (endMeta == null || endMeta.Parent == null)
-                return new Cell[0];
+                return null;
 
             var path = new List<Cell>();
             while (currentMeta != startMeta)
@@ -76,7 +73,7 @@ namespace Inertia.PathFinding
                 currentMeta = currentMeta.Parent;
             }
 
-            return path.ToArray();
+            return new PathFinderResult(path.ToArray());
 
             CellMeta TryGetMeta(Cell cell)
             {
@@ -94,10 +91,15 @@ namespace Inertia.PathFinding
                 var dy = Math.Abs(meta0.Cell.GridY - meta1.Cell.GridY);
 
                 if (dx > dy)
-                    return 14 * dy + 10 * (dx - dy);
+                    return (14 * dy) + (10 * (dx - dy));
 
-                return 14 * dx + 10 * (dy - dx);
+                return (14 * dx) + (10 * (dy - dx));
             }
+        }
+        public async void FindASync(Cell startCell, Cell endCell, Action<PathFinderResult> onResult)
+        {
+            var result = await Task.Run(() => Find(startCell, endCell));
+            onResult(result);
         }
     }
 }

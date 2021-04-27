@@ -3,7 +3,9 @@
     public class Grid
     {
         public readonly bool UseDiagonal;
-        public int MaxSize { get; private set; }
+        public int Width => _cells.GetLength(0);
+        public int Height => _cells.GetLength(1);
+        public int MaxSize => Width * Height;
         
         private Cell[,] _cells;
         
@@ -11,7 +13,6 @@
         {
             _cells = cells;
             UseDiagonal = diagonal;
-            MaxSize = _cells.GetLength(0) * _cells.GetLength(1);
 
             foreach (var cell in _cells)
                 cell.LoadNeighbours(this);

@@ -26,20 +26,27 @@ namespace Inertia.PathFinding
         {
             var n = new List<Cell>();
 
-            for (var x = -1; x < 2; x++)
+            if (grid.UseDiagonal)
             {
-                for (var y = -1; y < 2; y++)
-                {
-                    if (x == 0 && y == 0)
-                        continue;
-
-                    var cell = grid.GetCellByIndexes(GridX + x, GridY + y);
-                    if (cell != null)
-                        n.Add(cell);
-                }
+                AddNeighbour(GridX - 1, GridY - 1);
+                AddNeighbour(GridX - 1, GridY + 1);
+                AddNeighbour(GridX + 1, GridY - 1);
+                AddNeighbour(GridX + 1, GridY + 1);
             }
 
+            AddNeighbour(GridX - 1, GridY);
+            AddNeighbour(GridX + 1, GridY);
+            AddNeighbour(GridX, GridY - 1);
+            AddNeighbour(GridX, GridY + 1);
+
             _neighbours = n.ToArray();
+
+            void AddNeighbour(int x, int y)
+            {
+                var cell = grid.GetCellByIndexes(x, y);
+                if (cell != null)
+                    n.Add(cell);
+            }
         }
     }
 

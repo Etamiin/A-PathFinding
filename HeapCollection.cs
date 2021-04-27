@@ -19,10 +19,11 @@ namespace Inertia.PathFinding
         }
         public void Add(T item)
         {
-            item.HeapIndex = Count++;
+            item.HeapIndex = Count;
             _items[item.HeapIndex] = item;
 
             SortUp(item);
+            Count++;
         }
         public T RemoveFirstItem()
         {
@@ -52,6 +53,8 @@ namespace Inertia.PathFinding
                     SwapItems(item, parent);
                 else
                     break;
+
+                parentIndex = (item.HeapIndex - 1) / 2;
             }
         }
         private void SortDown(T item)
@@ -60,12 +63,9 @@ namespace Inertia.PathFinding
             {
                 var indexLeft = item.HeapIndex * 2 + 1;
                 var indexRight = item.HeapIndex * 2 + 2;
-                var swapIndex = 0;
-
                 if (indexLeft < Count)
                 {
-                    swapIndex = indexLeft;
-
+                    var swapIndex = indexLeft;
                     if (indexRight < Count)
                     {
                         if (_items[indexLeft].CompareTo(_items[indexRight]) < 0)
