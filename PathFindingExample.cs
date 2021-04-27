@@ -40,6 +40,7 @@ namespace Inertia.PathFinding
             var start = grid.GetCellByIndexes(0, 0);
             var end = (Cell)null;
 
+            //get random end cell
             while (end == null)
                 end = grid.GetCellByIndexes(r.Next(1, grid.Width), r.Next(1, grid.Height));
 
@@ -62,6 +63,11 @@ namespace Inertia.PathFinding
 
             */
 
+            //check if selected end cell or start arn't walkable or if the finder failed finding a path
+            if (result == null)
+                return;
+
+            //loop on result path
             while (!result.IsEndOfPath)
             {
                 var cell = result.GetNextCell();
