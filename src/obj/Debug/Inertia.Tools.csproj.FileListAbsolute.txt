@@ -1,6 +1,0 @@
-C:\Users\abdel\Desktop\VS Projects\Git\Astar-Pathfinding\src\bin\Debug\Inertia.Tools.dll
-C:\Users\abdel\Desktop\VS Projects\Git\Astar-Pathfinding\src\bin\Debug\Inertia.Tools.pdb
-C:\Users\abdel\Desktop\VS Projects\Git\Astar-Pathfinding\src\obj\Debug\Inertia.Tools.csproj.AssemblyReference.cache
-C:\Users\abdel\Desktop\VS Projects\Git\Astar-Pathfinding\src\obj\Debug\Inertia.Tools.csproj.CoreCompileInputs.cache
-C:\Users\abdel\Desktop\VS Projects\Git\Astar-Pathfinding\src\obj\Debug\Inertia.Tools.dll
-C:\Users\abdel\Desktop\VS Projects\Git\Astar-Pathfinding\src\obj\Debug\Inertia.Tools.pdb
