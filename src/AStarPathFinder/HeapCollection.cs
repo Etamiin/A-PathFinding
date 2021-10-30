@@ -1,23 +1,23 @@
 ﻿using System;
 
-namespace Inertia.PathFinding
+namespace Inertia.Tools
 {
-    public class HeapCollection<T> where T : IHeapItem<T>
+    internal sealed class HeapCollection<T> where T : IHeapItem<T>
     {
-        public int Count { get; private set; }
+        internal int Count { get; private set; }
 
         private T[] _items;
         
-        public HeapCollection(int maxSize)
+        internal HeapCollection(int maxSize)
         {
             _items = new T[maxSize];
         }
 
-        public bool Contains(T item)
+        internal bool Contains(T item)
         {
             return Equals(_items[item.HeapIndex], item);
         }
-        public void Add(T item)
+        internal void Add(T item)
         {
             item.HeapIndex = Count;
             _items[item.HeapIndex] = item;
@@ -25,7 +25,7 @@ namespace Inertia.PathFinding
             SortUp(item);
             Count++;
         }
-        public T RemoveFirstItem()
+        internal T RemoveFirstItem()
         {
             var first = _items[0];
             Count--;
@@ -37,7 +37,7 @@ namespace Inertia.PathFinding
             return first;
         }
 
-        public void UpdateItem(T item)
+        internal void UpdateItem(T item)
         {
             SortUp(item);
         }
@@ -50,9 +50,13 @@ namespace Inertia.PathFinding
             {
                 var parent = _items[parentIndex];
                 if (item.CompareTo(parent) > 0)
+                {
                     SwapItems(item, parent);
+                }
                 else
+                {
                     break;
+                }
 
                 parentIndex = (item.HeapIndex - 1) / 2;
             }
@@ -69,13 +73,19 @@ namespace Inertia.PathFinding
                     if (indexRight < Count)
                     {
                         if (_items[indexLeft].CompareTo(_items[indexRight]) < 0)
+                        {
                             swapIndex = indexRight;
+                        }
                     }
 
                     if (item.CompareTo(_items[swapIndex]) < 0)
+                    {
                         SwapItems(item, _items[swapIndex]);
+                    }
                     else
+                    {
                         break;
+                    }
                 }
                 else
                 {

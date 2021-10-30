@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Inertia.PathFinding
+namespace Inertia.Tools
 {
     public class Cell
     {
@@ -50,17 +50,17 @@ namespace Inertia.PathFinding
         }
     }
 
-    public class CellMeta : IHeapItem<CellMeta>
+    internal class CellMeta : IHeapItem<CellMeta>
     {
         public int HeapIndex { get; set; }
 
-        public readonly Cell Cell;
-        public CellMeta Parent;
-        public int Gcost;
-        public int Hcost;
-        public int Fcost => Gcost + Hcost;
+        internal readonly Cell Cell;
+        internal CellMeta Parent;
+        internal int Gcost;
+        internal int Hcost;
+        internal int Fcost => Gcost + Hcost;
 
-        public CellMeta(Cell cell)
+        internal CellMeta(Cell cell)
         {
             Cell = cell;
         }
@@ -69,7 +69,9 @@ namespace Inertia.PathFinding
         {
             var compare = Fcost.CompareTo(meta.Fcost);
             if (compare == 0)
+            {
                 compare = Hcost.CompareTo(meta.Hcost);
+            }
 
             return -compare;
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inertia.PathFinding
+namespace Inertia.Tools
 {
-    public class PathFinderResult
+    public sealed class PathFinderResult
     {
         public bool IsEndOfPath => _currentIndex < 0;
 
@@ -27,7 +27,9 @@ namespace Inertia.PathFinding
         public Cell GetNextCell()
         {
             if (IsEndOfPath)
+            {
                 return null;
+            }
 
             return _path[_currentIndex--];
         }
