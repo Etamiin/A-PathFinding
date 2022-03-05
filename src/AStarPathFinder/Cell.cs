@@ -4,8 +4,8 @@ namespace Inertia.Tools
 {
     public class Cell
     {
-        public int GridX { get; set; }
-        public int GridY { get; set; }
+        public readonly int GridX;
+        public readonly int GridY;
         public bool Walkable { get; set; }
         
         private Cell[] _neighbours;

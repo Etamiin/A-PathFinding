@@ -1,0 +1,6 @@
+C:\Users\abdel\Desktop\VS Projects\Git\Inertia.Tools\src\bin\Debug\Inertia.Tools.dll
+C:\Users\abdel\Desktop\VS Projects\Git\Inertia.Tools\src\bin\Debug\Inertia.Tools.pdb
+C:\Users\abdel\Desktop\VS Projects\Git\Inertia.Tools\src\obj\Debug\Inertia.Tools.csproj.CoreCompileInputs.cache
+C:\Users\abdel\Desktop\VS Projects\Git\Inertia.Tools\src\obj\Debug\Inertia.Tools.dll
+C:\Users\abdel\Desktop\VS Projects\Git\Inertia.Tools\src\obj\Debug\Inertia.Tools.pdb
+C:\Users\abdel\Desktop\VS Projects\Git\Inertia.Tools\src\obj\Debug\Inertia.Tools.csproj.AssemblyReference.cache
