@@ -53,10 +53,7 @@ namespace Inertia.Tools
                 {
                     SwapItems(item, parent);
                 }
-                else
-                {
-                    break;
-                }
+                else break;
 
                 parentIndex = (item.HeapIndex - 1) / 2;
             }
@@ -82,15 +79,9 @@ namespace Inertia.Tools
                     {
                         SwapItems(item, _items[swapIndex]);
                     }
-                    else
-                    {
-                        break;
-                    }
+                    else break;
                 }
-                else
-                {
-                    break;
-                }
+                else break;
             }
         }
         private void SwapItems(T item0, T item1)

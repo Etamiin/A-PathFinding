@@ -26,10 +26,7 @@ namespace Inertia.Tools
         }
         public Cell GetNextCell()
         {
-            if (IsEndOfPath)
-            {
-                return null;
-            }
+            if (IsEndOfPath) return null;
 
             return _path[_currentIndex--];
         }

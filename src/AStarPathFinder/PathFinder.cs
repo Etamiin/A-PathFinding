@@ -5,21 +5,18 @@ using System.Threading;
 
 namespace Inertia.Tools
 {
-    public sealed class PathFinder
+    public sealed class PathFinder<T> where T : Cell
     {
-        private Grid _grid;
+        private MapGrid<T> _grid;
 
-        public PathFinder(Grid grid)
+        public PathFinder(MapGrid<T> grid)
         {
             _grid = grid;
         }
 
-        public PathFinderResult Find(Cell startCell, Cell endCell)
+        public PathFinderResult Find(T startCell, T endCell)
         {
-            if (!startCell.Walkable || !endCell.Walkable)
-            {
-                return null;
-            }
+            if (!startCell.Walkable || !endCell.Walkable) return null;
 
             var openSet = new HeapCollection<CellMeta>(_grid.MaxSize);
             var closedSet = new List<CellMeta>();
@@ -36,18 +33,12 @@ namespace Inertia.Tools
                 var node = openSet.RemoveFirstItem();
                 closedSet.Add(node);
 
-                if (node.Cell == endCell)
-                {
-                    break;
-                }
+                if (node.Cell == endCell) break;
 
                 foreach (var neighbour in node.Cell.GetNeighbours())
                 {
-                    var nMeta = TryGetMeta(neighbour);
-                    if (!neighbour.Walkable || closedSet.Contains(nMeta))
-                    {
-                        continue;
-                    }
+                    var nMeta = TryGetMeta(neighbour as T);
+                    if (!neighbour.Walkable || closedSet.Contains(nMeta)) continue;
 
                     var newCost = node.Gcost + GetDistanceCost(node, nMeta);
                     var dontContains = !openSet.Contains(nMeta);
@@ -57,19 +48,13 @@ namespace Inertia.Tools
                         nMeta.Hcost = GetDistanceCost(nMeta, endMeta);
                         nMeta.Parent = node;
 
-                        if (dontContains)
-                        {
-                            openSet.Add(nMeta);
-                        }
+                        if (dontContains) openSet.Add(nMeta);
                     }
                 }
             }
 
             var currentMeta = endMeta;
-            if (endMeta == null || endMeta.Parent == null)
-            {
-                return null;
-            }
+            if (endMeta == null || endMeta.Parent == null) return null;
 
             var path = new List<Cell>();
             while (currentMeta != startMeta)
@@ -80,12 +65,9 @@ namespace Inertia.Tools
 
             return new PathFinderResult(path.ToArray());
 
-            CellMeta TryGetMeta(Cell cell)
+            CellMeta TryGetMeta(T cell)
             {
-                if (metas.TryGetValue(cell, out CellMeta meta))
-                {
-                    return meta;
-                }
+                if (metas.TryGetValue(cell, out CellMeta meta)) return meta;
 
                 var m = new CellMeta(cell);
                 metas.Add(cell, m);
@@ -97,15 +79,12 @@ namespace Inertia.Tools
                 var dx = Math.Abs(meta0.Cell.GridX - meta1.Cell.GridX);
                 var dy = Math.Abs(meta0.Cell.GridY - meta1.Cell.GridY);
 
-                if (dx > dy)
-                {
-                    return (14 * dy) + (10 * (dx - dy));
-                }
+                if (dx > dy) return (14 * dy) + (10 * (dx - dy));
 
                 return (14 * dx) + (10 * (dy - dx));
             }
         }
-        public void FindAsync(Cell startCell, Cell endCell, Action<PathFinderResult> onResult)
+        public void FindAsync(T startCell, T endCell, Action<PathFinderResult> onResult)
         {
             Task.Factory.StartNew(async() => {
                 var result = Find(startCell, endCell);

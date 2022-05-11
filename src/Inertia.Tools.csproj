@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AStarPathFinder\Cell.cs" />
-    <Compile Include="AStarPathFinder\Grid.cs" />
+    <Compile Include="AStarPathFinder\MapGrid.cs" />
     <Compile Include="AStarPathFinder\HeapCollection.cs" />
     <Compile Include="AStarPathFinder\PathFinder.cs" />
     <Compile Include="AStarPathFinder\PathFinderResult.cs" />

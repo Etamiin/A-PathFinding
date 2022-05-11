@@ -22,9 +22,9 @@ namespace Inertia.Tools
             return _neighbours;
         }
 
-        internal void LoadNeighbours(Grid grid)
+        internal void LoadNeighbours<T>(MapGrid<T> grid) where T : Cell
         {
-            var n = new List<Cell>();
+            var n = new List<T>();
 
             if (grid.UseDiagonal)
             {
@@ -44,8 +44,7 @@ namespace Inertia.Tools
             void AddNeighbour(int x, int y)
             {
                 var cell = grid.GetCellByIndexes(x, y);
-                if (cell != null)
-                    n.Add(cell);
+                if (cell != null) n.Add(cell);
             }
         }
     }
