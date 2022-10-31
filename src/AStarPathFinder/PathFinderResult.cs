@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace Inertia.Tools
 {
-    public sealed class PathFinderResult
+    public sealed class PathFinderResult<T> where T : Cell
     {
         public bool IsEndOfPath => _currentIndex < 0;
 
-        private Cell[] _path;
+        private T[] _path;
         private int _currentIndex;
 
-        public PathFinderResult(Cell[] path)
+        public PathFinderResult(T[] path)
         {
             _path = path;
             Reset();
         }
 
-        public PathFinderResult Reset()
+        public PathFinderResult<T> Reset()
         {
             _currentIndex = _path.Length - 1;
             return this;
         }
-        public Cell GetNextCell()
+        public T GetNextCell()
         {
             if (IsEndOfPath) return null;
 

@@ -14,8 +14,9 @@ namespace Inertia.Tools
             _grid = grid;
         }
 
-        public PathFinderResult Find(T startCell, T endCell)
+        public PathFinderResult<T> Find(T startCell, T endCell)
         {
+            if (startCell == endCell) return null;
             if (!startCell.Walkable || !endCell.Walkable) return null;
 
             var openSet = new HeapCollection<CellMeta>(_grid.MaxSize);
@@ -56,14 +57,14 @@ namespace Inertia.Tools
             var currentMeta = endMeta;
             if (endMeta == null || endMeta.Parent == null) return null;
 
-            var path = new List<Cell>();
+            var path = new List<T>();
             while (currentMeta != startMeta)
             {
-                path.Add(currentMeta.Cell);
+                path.Add((T)currentMeta.Cell);
                 currentMeta = currentMeta.Parent;
             }
 
-            return new PathFinderResult(path.ToArray());
+            return new PathFinderResult<T>(path.ToArray());
 
             CellMeta TryGetMeta(T cell)
             {
@@ -84,9 +85,9 @@ namespace Inertia.Tools
                 return (14 * dx) + (10 * (dy - dx));
             }
         }
-        public void FindAsync(T startCell, T endCell, Action<PathFinderResult> onResult)
+        public void FindAsync(T startCell, T endCell, Action<PathFinderResult<T>> onResult)
         {
-            Task.Factory.StartNew(async() => {
+            Task.Factory.StartNew(async () => {
                 var result = Find(startCell, endCell);
                 onResult(result);
 
